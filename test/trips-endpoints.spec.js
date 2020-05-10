@@ -98,12 +98,47 @@ describe('Trips Endpoints', function() {
                     expect(res.body.sense_four).to.eql(newTrip.sense_four)
                     expect(res.body.element_five).to.eql(newTrip.element_five)
                     expect(res.body.sense_five).to.eql(newTrip.sense_five)
+                    expect(res.body).to.have.property('id')
+                    expect(res.headers.location).to.eql(`/api/trips/${res.body.id}`)
                 })
                 .then(postRes =>
                     supertest(app)
                         .get(`/api/trips/${postRes.body.id}`)
                         .expect(postRes.body)
                 )
+        })
+    })
+
+    describe(`DELETE /api/trips/:trip_id`, () => {
+        context(`Given no trips`, () => {
+            it(`responds with 404`, () => {
+                const tripId = 321
+                return supertest(app)
+                    .get(`/api/trips/${tripId}`)
+                    .expect(404, { error: { message: `Trip does not exist`} })
+            })
+        })
+        context('Given there are trips in the database', () => {
+            const testTrips = makeTripsArray()
+
+            beforeEach('insert trips', () => {
+                return db
+                    .into('trips')
+                    .insert(testTrips)
+            })
+
+            it('responds with 204 and removes the trip', () => {
+                const idToRemove = 2
+                const expectedTrips = testTrips.filter(trip => trip.id !== idToRemove)
+                return supertest(app)
+                    .delete(`/api/trips/${idToRemove}`)
+                    .expect(204)
+                    .then(res =>
+                        supertest(app)
+                            .get(`/api/trips`)
+                            .expect(expectedTrips)    
+                    )
+            })
         })
     })
 })

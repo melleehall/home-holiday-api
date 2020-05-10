@@ -5,6 +5,22 @@ const TripsService = require('./trips-service')
 const tripsRouter = express.Router()
 const jsonParser = express.json()
 
+const serializeTrip = trip => ({
+    id: trip.id,
+    trip_name: xss(trip.trip_name),
+    description: xss(trip.description),
+    element_one: xss(trip.element_one),
+    sense_one: xss(trip.sense_one), 
+    element_two: xss(trip.element_two), 
+    sense_two: xss(trip.sense_two), 
+    element_three: xss(trip.element_three), 
+    sense_three: xss(trip.sense_three), 
+    element_four: xss(trip.element_four), 
+    sense_four: xss(trip.sense_four), 
+    element_five: xss(trip.element_five), 
+    sense_five: xss(trip.sense_five)
+  })
+
 tripsRouter
     .route('/')
     .get((req, res, next) => {
@@ -14,13 +30,21 @@ tripsRouter
         .then(trips => {
             res
                 .status(200)
-                .json(trips)
+                .json(trips.map(serializeTrip))
         })
         .catch(next)
     })
     .post(jsonParser, (req, res, next) => {
         const { trip_name, description, element_one, sense_one, element_two, sense_two, element_three, sense_three, element_four, sense_four, element_five, sense_five } = req.body
         const newTrip = { trip_name, description, element_one, sense_one, element_two, sense_two, element_three, sense_three, element_four, sense_four, element_five, sense_five }
+
+        for (const [key, value] of Object.entries(newTrip)) {
+            if (value == null) {
+              return res.status(400).json({
+                error: { message: `Missing '${key}' in request body` }
+              })
+            }
+        }
 
         TripsService.insertTrip(
             req.app.get('db'),
@@ -29,6 +53,7 @@ tripsRouter
             .then(trip => {
                 res 
                     .status(201)
+                    .location(`/api/trips/${trip.id}`)
                     .json(trip)
             })
             .catch(next)
@@ -57,19 +82,29 @@ tripsRouter
             .status(200)
             .json({
                 id: res.trip.id,
-                trip_name: res.trip.trip_name,
-                description: res.trip.description,
-                element_one: res.trip.element_one,
-                sense_one: res.trip.sense_one,
-                element_two: res.trip.element_two,
-                sense_two: res.trip.sense_two,
-                element_three: res.trip.element_three,
-                sense_three: res.trip.sense_three,
-                element_four: res.trip.element_four,
-                sense_four: res.trip.sense_four,
-                element_five: res.trip.element_five,
-                sense_five: res.trip.sense_five
+                trip_name: xss(res.trip.trip_name),
+                description: xss(res.trip.description),
+                element_one: xss(res.trip.element_one),
+                sense_one: xss(res.trip.sense_one),
+                element_two: xss(res.trip.element_two),
+                sense_two: xss(res.trip.sense_two),
+                element_three: xss(res.trip.element_three),
+                sense_three: xss(res.trip.sense_three),
+                element_four: xss(res.trip.element_four),
+                sense_four: xss(res.trip.sense_four),
+                element_five: xss(res.trip.element_five),
+                sense_five: xss(res.trip.sense_five)
             })
+    })
+    .delete((req, res, next) => {
+        TripsService.deleteTrip(
+            req.app.get('db'),
+            req.params.trip_id
+        )
+            .then(() => {
+                res.status(204).end()
+            })
+            .catch(next)
     })
 
 

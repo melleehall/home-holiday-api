@@ -13,7 +13,12 @@ const TripsService = {
             .then(rows => {
                 return rows[0]
             })
-    }
+    },
+    deleteTrip(knex, id) {
+        return knex('trips')
+            .where({ id })
+            .delete()
+    },
 }
 
 module.exports = TripsService
