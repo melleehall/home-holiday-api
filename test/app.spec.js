@@ -1,9 +1,10 @@
-const server = require('../src/server')
+const { expect } = require('chai')
+const app = require('../src/app')
 
 describe('App', () => {
   it('GET / responds with 200 containing "Hello, world!"', () => {
-    return supertest(server)
-      .get('/api')
+    return supertest(app)
+      .get('/')
       .expect(200, 'Hello, world!')
   })
 })

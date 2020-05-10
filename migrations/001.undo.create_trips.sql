@@ -1,0 +1,4 @@
+DROP TABLE IF EXISTS trips;
+
+DROP TYPE IF EXISTS sense;
+
