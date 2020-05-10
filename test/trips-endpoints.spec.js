@@ -75,4 +75,35 @@ describe('Trips Endpoints', function() {
             })
         })
     })
+
+    describe(`POST /api/trips`, () => {
+        it(`creates a trip, responding with 201 and the new trip`, () => {
+            const testTrips = makeTripsArray()
+            const newTrip = testTrips[0]
+
+            return supertest(app)
+                .post('/api/trips')
+                .send(newTrip)
+                .expect(201)
+                .expect(res => {
+                    expect(res.body.trip_name).to.eql(newTrip.trip_name)
+                    expect(res.body.description).to.eql(newTrip.description)
+                    expect(res.body.element_one).to.eql(newTrip.element_one)
+                    expect(res.body.sense_one).to.eql(newTrip.sense_one)
+                    expect(res.body.element_two).to.eql(newTrip.element_two)
+                    expect(res.body.sense_two).to.eql(newTrip.sense_two)
+                    expect(res.body.element_three).to.eql(newTrip.element_three)
+                    expect(res.body.sense_three).to.eql(newTrip.sense_three)
+                    expect(res.body.element_four).to.eql(newTrip.element_four)
+                    expect(res.body.sense_four).to.eql(newTrip.sense_four)
+                    expect(res.body.element_five).to.eql(newTrip.element_five)
+                    expect(res.body.sense_five).to.eql(newTrip.sense_five)
+                })
+                .then(postRes =>
+                    supertest(app)
+                        .get(`/api/trips/${postRes.body.id}`)
+                        .expect(postRes.body)
+                )
+        })
+    })
 })

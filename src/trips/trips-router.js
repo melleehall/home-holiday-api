@@ -18,6 +18,21 @@ tripsRouter
         })
         .catch(next)
     })
+    .post(jsonParser, (req, res, next) => {
+        const { trip_name, description, element_one, sense_one, element_two, sense_two, element_three, sense_three, element_four, sense_four, element_five, sense_five } = req.body
+        const newTrip = { trip_name, description, element_one, sense_one, element_two, sense_two, element_three, sense_three, element_four, sense_four, element_five, sense_five }
+
+        TripsService.insertTrip(
+            req.app.get('db'),
+            newTrip
+        )
+            .then(trip => {
+                res 
+                    .status(201)
+                    .json(trip)
+            })
+            .catch(next)
+        })
 
 tripsRouter
     .route('/:trip_id')
