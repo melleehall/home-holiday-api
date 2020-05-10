@@ -1,7 +1,7 @@
 const { expect } = require('chai')
 const knex = require('knex')
 const app = require('../src/app')
-
+const { makeTripsArray } = require('./trips.fixtures')
 
 describe('Trips Endpoints', function() {
     let db
@@ -16,53 +16,63 @@ describe('Trips Endpoints', function() {
 
     after('disconnect from db', () => db.destroy())
 
-    // before('clean the table', () => db('trips').truncate())
+    before('clean the table', () => db('trips').truncate())
 
-    context('Given there are trips in the database', () => {
-        const testTrips = [
-            {
-                id: 1,
-                trip_name: 'France',
-                description: 'A trip to France!',
-                element_one: 'Element one',
-                sense_one: 'See',
-                element_two: 'Element two',
-                sense_two: 'Touch',
-                element_three: 'Element three',
-                sense_three: 'Taste',
-                element_four: 'Element four',
-                sense_four: 'Hear',
-                element_five: 'Element five',
-                sense_five: 'Smell',
-            },
-            {
-                id: 2,
-                trip_name: 'Underwater',
-                description: 'A trip under the sea!',
-                element_one: 'Great Barrier Reef',
-                sense_one: 'See',
-                element_two: 'Lush salt scrub',
-                sense_two: 'Touch',
-                element_three: 'Miso soup',
-                sense_three: 'Taste',
-                element_four: 'Sounds of the sea',
-                sense_four: 'Hear',
-                element_five: 'Saltaire candle from Mer Sea',
-                sense_five: 'Smell',
-            }
-        ];
+    afterEach('cleanup', () => db('trips').truncate())
 
-        beforeEach('insert articles', () => {
-            return db
-                .into('trips')
-                .insert(testTrips)
+    describe(`GET /api/trips`, () => {
+        context(`Given no trips`, () => {
+            it(`responds with 200 and an empty list`, () => {
+                return supertest(app)
+                    .get('/api/trips')
+                    .expect(200, [])
+            })
         })
 
-        it('GET /api/trips responds with 200 and all of the trips', () => {
-            return supertest(app)
-                .get('/api/trips')
-                .expect(200, testTrips)
+        context('Given there are trips in the database', () => {
+            const testTrips = makeTripsArray()
 
+            beforeEach('insert articles', () => {
+                return db
+                    .into('trips')
+                    .insert(testTrips)
+            })
+
+            it('GET /api/trips responds with 200 and all of the trips', () => {
+                return supertest(app)
+                    .get('/api/trips')
+                    .expect(200, testTrips)
+
+            })
+        })
+    })
+
+    describe(`GET /api/trips/:trip_id`, () => {
+        context(`Given no trips`, () => {
+            it(`responds with 404`, () => {
+                const tripId = 321
+                return supertest(app)
+                    .get(`/api/trips/${tripId}`)
+                    .expect(404, { error: { message: `Trip does not exist`} })
+            })
+        })
+
+        context('Given there are trips in the database', () => {
+            const testTrips = makeTripsArray()
+
+            beforeEach('insert articles', () => {
+                return db
+                    .into('trips')
+                    .insert(testTrips)
+            })
+
+            it('GET /api/trips/trip_id responds with 200 and the specified trip', () => {
+                const tripId = 1
+                const expectedTrip = testTrips[tripId - 1]
+                return supertest(app)
+                    .get(`/api/trips/${tripId}`)
+                    .expect(200, expectedTrip)
+            })
         })
     })
 })
