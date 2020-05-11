@@ -1,0 +1,5 @@
+ALTER TABLE trips DROP COLUMN IF EXISTS resource_one,
+ALTER TABLE trips DROP COLUMN IF EXISTS resource_two,
+ALTER TABLE trips DROP COLUMN IF EXISTS resource_three,
+ALTER TABLE trips DROP COLUMN IF EXISTS resource_four,
+ALTER TABLE trips DROP COLUMN IF EXISTS resource_five;
