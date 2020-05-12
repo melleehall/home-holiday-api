@@ -19,6 +19,11 @@ const TripsService = {
             .where({ id })
             .delete()
     },
+    updateTrip(knex, id, newTripFields) {
+        return knex('trips')
+            .where({ id })
+            .update(newTripFields)
+    }
 }
 
 module.exports = TripsService

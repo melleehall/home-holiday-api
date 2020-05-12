@@ -1,0 +1,2 @@
+ALTER TABLE trips 
+    ADD COLUMN is_taken BOOLEAN NOT NULL DEFAULT 'no';

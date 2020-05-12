@@ -6,6 +6,7 @@ const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 // const {CLIENT_ORIGIN} = require('./config')
 const tripsRouter = require('./trips/trips-router')
+const dashboardRouter = require('./dashboard/dashboard-router')
 
 const app = express()
 const jsonParser = express.json()
@@ -21,6 +22,7 @@ app.use(helmet())
 // );
 
 app.use('/api/trips', tripsRouter)
+app.use('/api/dashboard', dashboardRouter)
 
 app.get('/', (req, res) => {
     res
