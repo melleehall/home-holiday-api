@@ -19,7 +19,7 @@ function makeTripsArray() {
             element_five: 'Element five',
             sense_five: 'Smell',
             resource_five: 'Resource five',
-            is_taken: false
+            is_taken: true
         },
         {
             id: 2,
