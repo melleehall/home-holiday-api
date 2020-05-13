@@ -21,5 +21,20 @@ dashboardRouter
         .catch(next)
     })
 
+dashboardRouter
+    .route('/taken')
+    .get((req, res, next) => {
+        DashboardService.getAllTaken(
+            req.app.get('db')
+        )
+        .then(trips => {
+            let count = 0
+            trips.forEach(trip => count+=1)
+            res 
+                .status(200)
+                .json({totalCount: `${count}`})
+        })
+        .catch(next)
+    })
 
-    module.exports = dashboardRouter
+module.exports = dashboardRouter
