@@ -24,7 +24,8 @@ const serializeTrip = trip => ({
     element_five: xss(res.trip.element_five),
     sense_five: xss(res.trip.sense_five),
     resource_five: xss(res.trip.resource_five),
-    is_taken: false
+    is_taken: false,
+    kudos: res.trip.kudos
   })
 
 tripsRouter
@@ -52,6 +53,7 @@ tripsRouter
             }
         }
         newTrip.is_taken = false
+        newTrip.kudos = 0
 
         TripsService.insertTrip(
             req.app.get('db'),
@@ -106,7 +108,8 @@ tripsRouter
                 element_five: xss(res.trip.element_five),
                 sense_five: xss(res.trip.sense_five),
                 resource_five: xss(res.trip.resource_five),
-                is_taken: res.trip.is_taken
+                is_taken: res.trip.is_taken,
+                kudos: res.trip.kudos
             })
     })
     .delete((req, res, next) => {
@@ -120,13 +123,15 @@ tripsRouter
             .catch(next)
     })
     .patch(jsonParser, (req, res, next) => {
-        const { is_taken } = req.body
-        const tripToUpdate = { is_taken }
-
-        if (!tripToUpdate) {
+        const { is_taken, kudos } = req.body
+        const tripToUpdate = { is_taken, kudos }
+        console.log(tripToUpdate)
+        
+        const numberOfValues = Object.values(tripToUpdate).filter(Boolean).length
+            if (numberOfValues === 0) {
             return res.status(400).json({
                 error: {
-                    message: `Request body must contain 'is_taken'.`
+                message: `Request body must contain either 'is_taken' or 'kudos'`
                 }
             })
         }

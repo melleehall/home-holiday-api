@@ -19,7 +19,8 @@ function makeTripsArray() {
             element_five: 'Element five',
             sense_five: 'Smell',
             resource_five: 'Resource five',
-            is_taken: true
+            is_taken: true,
+            kudos: 0
         },
         {
             id: 2,
@@ -40,7 +41,8 @@ function makeTripsArray() {
             element_five: 'Saltaire candle from Mer Sea',
             sense_five: 'Smell',
             resource_five: 'www.smellthiscandle.com',
-            is_taken: false
+            is_taken: false,
+            kudos: 0
         },
     ];
 }
