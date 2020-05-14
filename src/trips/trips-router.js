@@ -125,7 +125,7 @@ tripsRouter
     .patch(jsonParser, (req, res, next) => {
         const { is_taken, kudos } = req.body
         const tripToUpdate = { is_taken, kudos }
-        console.log(tripToUpdate)
+        console.log(`kudos: ${kudos}`)
         
         const numberOfValues = Object.values(tripToUpdate).filter(Boolean).length
             if (numberOfValues === 0) {
@@ -142,7 +142,7 @@ tripsRouter
             tripToUpdate
         )
         .then(numRowsAffected => {
-            res.status(204).end()
+            res.status(204).json(numRowsAffected)
         })
         .catch(next)
     })
