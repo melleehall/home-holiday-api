@@ -53,6 +53,7 @@ Add Trip Form:
 * Node.js
 * Express
 * JavaScript
+* PostgreSQL
 * Testing: Mocha / Chai / Supertest
 
 ## Scripts
