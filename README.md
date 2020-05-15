@@ -36,6 +36,18 @@ Navigation:
 
 ![navigation](Screengrabs/Nav.png)
 
+Dashboard Stats:
+
+![dashboard stats](Screengrabs/Dashboard.png)
+
+Trips List:
+
+![trips list](Screengrabs/TripsList.png)
+
+Add Trip Form:
+
+![add trip](Screengrabs/AddTrip.png)
+
 ## Technology
 
 * Node.js
