@@ -153,7 +153,7 @@ tripsRouter
             tripToUpdate
         )
         .then(newValue => {
-            res.json(newValue)
+            res.json(newValue.toString())
         })
         .catch(next)
     })
