@@ -34,7 +34,7 @@ This API supports home holiday, a virtual trip itinerary generator that inspires
 
 Navigation:
 
-![login screen](Screengrabs/Nav.png)
+![navigation](Screengrabs/Nav.png)
 
 ## Technology
 
