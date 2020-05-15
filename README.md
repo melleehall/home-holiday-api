@@ -8,33 +8,33 @@ This API supports home holiday, a virtual trip itinerary generator that inspires
 
 ## Routes
 
-* /api/trips
+/api/trips
 
-GET : returns an array of all trips (type: objects) in the database
+* GET : returns an array of all trips (type: objects) in the database
 
-POST : insert a new trip into the database and returns the new trip (type: object) and its location
+* POST : insert a new trip into the database and returns the new trip (type: object) and its location
 
-* /api/trips/:trip_id
+/api/trips/:trip_id
 
-GET : returns the trip (type: object) specified in the dynamic portion of the path
+* GET : returns the trip (type: object) specified in the dynamic portion of the path
 
-DELETE : removes the trip specified in the dynamic portion of the path 
+* DELETE : removes the trip specified in the dynamic portion of the path 
 
-PATCH : updates the record of the trip specified in the dynamic portion of the path; supports update of either 'is_taken' value OR 'kudos' value in a single request
+* PATCH : updates the record of the trip specified in the dynamic portion of the path; supports update of either 'is_taken' value OR 'kudos' value in a single request
 
-* /api/dashboard
+/api/dashboard
 
-GET : returns the total number of trips in the database
+* GET : returns the total number of trips in the database
 
-* /api/dashboard/taken
+/api/dashboard/taken
 
-GET : returns the total number of completed trips
+* GET : returns the total number of completed trips
 
 ## Screenshots
 
 Navigation:
 
-![navigation](Screenshots/Nav.png)
+![login screen](Screengrabs/Nav.png)
 
 ## Technology
 
