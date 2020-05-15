@@ -25,7 +25,7 @@ describe('Trips Endpoints', function() {
             it(`responds with 200 and an empty list`, () => {
                 return supertest(app)
                     .get('/api/dashboard')
-                    .expect(200, {totalCount: "0"})
+                    .expect(200, {totalCount: '0'})
             })
 
         })
@@ -54,7 +54,7 @@ describe('Trips Endpoints', function() {
             it(`responds with 200 and an empty list`, () => {
                 return supertest(app)
                     .get('/api/dashboard')
-                    .expect(200, {totalCount: "0"})
+                    .expect(200, {totalCount: '0'})
             })
 
         })
@@ -72,7 +72,7 @@ describe('Trips Endpoints', function() {
             it('GET /api/dashboard responds with 200 and the number of trips', () => {
                 return supertest(app)
                     .get('/api/dashboard/taken')
-                    .expect(200, {totalCount: "1"})
+                    .expect(200, {totalCount: '1'})
 
             })
         })

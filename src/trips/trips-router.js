@@ -126,7 +126,6 @@ tripsRouter
         const { is_taken, kudos } = req.body
         const tripToUpdate = { is_taken, kudos }
         let columnToUpdate;
-        console.log(tripToUpdate)
         const numberOfValues = Object.values(tripToUpdate).filter(Boolean).length
         if (numberOfValues === 0) {
             return res.status(400).json({
