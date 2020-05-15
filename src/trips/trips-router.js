@@ -125,24 +125,35 @@ tripsRouter
     .patch(jsonParser, (req, res, next) => {
         const { is_taken, kudos } = req.body
         const tripToUpdate = { is_taken, kudos }
-        console.log(`kudos: ${kudos}`)
+        let columnToUpdate;
         
         const numberOfValues = Object.values(tripToUpdate).filter(Boolean).length
-            if (numberOfValues === 0) {
+        if (numberOfValues === 0) {
             return res.status(400).json({
                 error: {
                 message: `Request body must contain either 'is_taken' or 'kudos'`
                 }
             })
+        }  else if (numberOfValues > 1) {
+            return res.status(400).json({
+                error: {
+                message: `Request body must only contain 'is_taken' or 'kudos' - not both.`
+                }
+            })
+        } else if (kudos) {
+            columnToUpdate = 'kudos'
+        } else {
+            columnToUpdate = 'is_taken'
         }
 
         TripsService.updateTrip(
             req.app.get('db'),
             req.params.trip_id,
+            columnToUpdate,
             tripToUpdate
         )
-        .then(numRowsAffected => {
-            res.status(204).json(numRowsAffected)
+        .then(newValue => {
+            res.json(newValue)
         })
         .catch(next)
     })

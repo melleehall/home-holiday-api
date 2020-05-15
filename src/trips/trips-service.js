@@ -19,10 +19,8 @@ const TripsService = {
             .where({ id })
             .delete()
     },
-    updateTrip(knex, id, newTripFields) {
-        return knex('trips')
-            .where({ id })
-            .update(newTripFields)
+    updateTrip(knex, id, columnToUpdate, newTripField) {
+        return knex('trips').where({ id }).update(newTripField).returning(columnToUpdate);
     }
 }
 
