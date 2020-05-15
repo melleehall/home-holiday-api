@@ -94,8 +94,8 @@ describe('Trips Endpoints', function() {
                     .into('trips')
                     .insert(testTrips)
             })
-
-            it(`responds with 204 and updates the trip`, () => {
+            
+            it(`it responds with 200, updates the trip, and returns the new value`, () => {
                 const idToUpdate = 1
                 const updateTrip = {
                     is_taken: true
@@ -107,7 +107,7 @@ describe('Trips Endpoints', function() {
                 return supertest(app)
                     .patch(`/api/trips/${idToUpdate}`)
                     .send(updateTrip)
-                    .expect(204)
+                    .expect(200, [updateTrip.is_taken])
                     .then(res => 
                         supertest(app)
                             .get(`/api/trips/${idToUpdate}`)
